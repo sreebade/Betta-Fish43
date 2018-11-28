@@ -14,18 +14,11 @@ public class AutoOpCraterBasic extends AutoOpBase {
 
         waitForStart();
 
-        startRobot(); //drop down and strafe out of hook
-
-        double maintainAngle = r.getCurrentAngle();
-        driveForwardDistance(maintainAngle, 25, 0.5); //drive forward away from lander
-        sleep(200);
 
         while (opModeIsActive()) {
-            r.intakeArm.setPower(1);
             idle();
         }
 
-        r.stop();
     }
 
 }

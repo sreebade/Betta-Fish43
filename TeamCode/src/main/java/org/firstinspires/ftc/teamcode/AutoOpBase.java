@@ -5,7 +5,12 @@ package org.firstinspires.ftc.teamcode;
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.Robot;
+
+import java.util.List;
 
 public abstract class AutoOpBase extends LinearOpMode {
 
@@ -22,8 +27,10 @@ public abstract class AutoOpBase extends LinearOpMode {
         r.winch.setPower(-1);
         sleep(4200);
         r.winch.setPower(0);
+        sampling();
         driveBackwardDistance(2, 0.3);
         mecanumStrafeRightTime(0.8, 400);
+        driveForwardDistance(10, 0.5);
     }
 
     public void driveForwardDistance(double maintainAngle, int forwardInches, double driveSpeed) {
@@ -226,7 +233,7 @@ public abstract class AutoOpBase extends LinearOpMode {
     }
 
     public void mecanumStrafeLeftTime(double power, int time) {
-        if(opModeIsActive()) {
+        if (opModeIsActive()) {
             r.mecanumStrafeLeft(power);
             sleep(time);
             r.stopDriving();
@@ -234,10 +241,80 @@ public abstract class AutoOpBase extends LinearOpMode {
     }
 
     public void mecanumStrafeRightTime(double power, int time) {
-        if(opModeIsActive()) {
+        if (opModeIsActive()) {
             r.mecanumStrafeRight(power);
             sleep(time);
             r.stopDriving();
+        }
+    }
+
+    private void sampling() {
+
+        r.initVuforia();
+
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+            r.initTfod();
+        } else {
+            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+        }
+
+        /** Activate Tensor Flow Object Detection. */
+        if (r.tfod != null) {
+            r.tfod.activate();
+        }
+
+        while (opModeIsActive()) {
+            if (r.tfod != null) {
+                // getUpdatedRecognitions() will return null if no new information is available since the last time that call was made.
+                List<Recognition> updatedRecognitions = r.tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null && updatedRecognitions.size() == 3) {
+                        int goldMineralX = -1;
+                        int silverMineral1X = -1;
+                        int silverMineral2X = -1;
+                        for (Recognition recognition : updatedRecognitions) {
+                            if (recognition.getLabel().equals(r.LABEL_GOLD_MINERAL)) {
+                                goldMineralX = (int) recognition.getLeft();
+                            } else if (silverMineral1X == -1) {
+                                silverMineral1X = (int) recognition.getLeft();
+                            } else {
+                                silverMineral2X = (int) recognition.getLeft();
+                            }
+                        }
+                        if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
+                            if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
+                                telemetry.addData("Gold Mineral Position", "Left");
+                                r.location = 0;
+                            } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
+                                telemetry.addData("Gold Mineral Position", "Right");
+                                r.location = 2;
+                            } else {
+                                telemetry.addData("Gold Mineral Position", "Center");
+                                r.location = 1;
+                            }
+                        }
+                        telemetry.update();
+
+                        if (r.tfod != null) {
+                            r.tfod.shutdown();
+                        }
+
+                        return;
+                }
+
+            }
+        }
+    }
+
+    public void dropMarker() {
+        if(opModeIsActive()) {
+            r.intakeArm.setPower(0.5);
+            sleep(200);
+            r.intake.setPower(0.7);
+            sleep(4000); //spin outward for 4 secs.
+            r.intake.setPower(0);
+            r.intakeArm.setPower(-1);
+            sleep(1500);
+            r.intakeArm.setPower(0);
         }
     }
 

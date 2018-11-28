@@ -14,34 +14,51 @@ public class AutoOpDepot extends AutoOpBase {
 
         waitForStart();
 
-        startRobot(); //drop down and strafe
+        startRobot(); //drops down, views the minerals, strafes, and drives forward
 
-        driveForwardDistance(r.getCurrentAngle(), 32, 0.8); //drive forward away from lander
+        //SAMPLING CODE
+        if(r.location == 0) { //left from robot's point of view
+            mecanumStrafeLeftTime(0.5, 2000);
+            driveForwardDistance(20, 0.5);
+            driveBackwardDistance(10, 0.5);
+            turnRightToAngle(r.getCurrentAngle() - 90);
+            driveForwardDistance(50, 1);
+        } else if (r.location == 2) { //right from robot's point of view
+            mecanumStrafeLeftTime(0.5, 1000);
+            driveForwardDistance(20, 0.5);
+            sleep(100);
+            driveBackwardDistance(10, 0.5);
+            turnRightToAngle(r.getCurrentAngle() - 90);
+            driveForwardDistance(25, 1);
+        } else { //center from robot's point of view
+            mecanumStrafeRightTime(0.5, 1000);
+            driveForwardDistance(20, 0.5);
+            sleep(100);
+            driveBackwardDistance(10, 0.5);
+            turnRightToAngle(r.getCurrentAngle() - 90);
+            driveForwardDistance(30, 1);
+        }
 
-        double angle = r.getCurrentAngle() - 7;
-        turnRightToAngle(angle);
+        turnRightToAngle(r.getCurrentAngle() - 7);
         sleep(200);
 
-        r.intakeArm.setPower(0.5);
-        sleep(200);
-        r.intake.setPower(0.7);
-        sleep(4000); //spin outward for 4 secs.
-        r.intake.setPower(0);
-        r.intakeArm.setPower(-1);
-        sleep(1500);
-        r.intakeArm.setPower(0);
+        mecanumStrafeLeftTime(0.5, 600);
 
-        driveForwardDistance(5, 0.7);
-        angle = r.getCurrentAngle() - 102;
-        turnRightToAngle(angle); //turn to crater
+        mecanumStrafeRightTime(0.5, 500);
+
+        driveForwardDistance(r.getCurrentAngle(), 20, 0.7);
+
+        dropMarker();
+
+        driveBackwardDistance(r.getCurrentAngle(), 20, 0.7);
+
+        turnRightToAngle(r.getCurrentAngle() - 179); //turn to crater
         sleep(100);
 
-        double maintainAngle = r.getCurrentAngle();
-        driveForwardDistance(maintainAngle, 70, 1); //drive to crater
-
-        r.intakeArm.setPower(1); //put intake in crater
+        driveForwardDistance(r.getCurrentAngle(), 30, 1); //drive to crater
 
         while (opModeIsActive()) {
+            r.intakeArm.setPower(0.7);
             idle();
         }
 
