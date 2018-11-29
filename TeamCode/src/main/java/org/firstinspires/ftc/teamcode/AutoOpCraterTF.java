@@ -49,9 +49,11 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  *
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
+ *
  */
-@TeleOp(name = "TensorFlow Test")
-public class TFODTest extends LinearOpMode {
+
+@Autonomous(name="Crater with TFLite")
+public class AutoOpCraterTF extends AutoOpBase {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
@@ -83,7 +85,15 @@ public class TFODTest extends LinearOpMode {
     private TFObjectDetector tfod;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
+        initRobot();
+
+        waitForStart();
+
+        startRobot(); //drop down and strafe out of hook
+
+        telemetry.addData("Step 1: ", "Completed");
+        telemetry.update();
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -97,6 +107,7 @@ public class TFODTest extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
+        int location = -1;
         waitForStart();
 
         if (opModeIsActive()) {
@@ -128,18 +139,32 @@ public class TFODTest extends LinearOpMode {
                             if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                                 if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
                                     telemetry.addData("Gold Mineral Position", "Left");
+                                    location = 0;
+                                    tfod.shutdown();
+                                    break;
                                 } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
                                     telemetry.addData("Gold Mineral Position", "Right");
+                                    location = 2;
+                                    tfod.shutdown();
+                                    break;
                                 } else {
                                     telemetry.addData("Gold Mineral Position", "Center");
+                                    location = 1;
+                                    tfod.shutdown();
+                                    break;
                                 }
                             }
                         }
                         telemetry.update();
                     }
+
                 }
             }
         }
+
+        // drive forward
+        // if location == 0 strafe left
+        // if location == 2 strafe right
 
         if (tfod != null) {
             tfod.shutdown();
