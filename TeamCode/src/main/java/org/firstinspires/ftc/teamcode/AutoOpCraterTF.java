@@ -33,7 +33,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import java.util.List;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
@@ -43,22 +45,21 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 /**
  * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
  * determine the position of the gold and silver minerals.
- *
+ * <p>
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
- *
+ * <p>
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
- *
  */
 
-@Autonomous(name="Crater with TFLite")
+@Autonomous(name = "Crater with TFLite")
 public class AutoOpCraterTF extends AutoOpBase {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
-    /*
+    /*l
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
      * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
      * A Vuforia 'Development' license key, can be obtained free of charge from the Vuforia developer
@@ -83,6 +84,8 @@ public class AutoOpCraterTF extends AutoOpBase {
      * Detection engine.
      */
     private TFObjectDetector tfod;
+
+    private double maintain;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -162,13 +165,44 @@ public class AutoOpCraterTF extends AutoOpBase {
             }
         }
 
+        int K = 0;
+        maintain = r.getCurrentAngle();
         // drive forward
+        driveForwardDistance(maintain, 10, 0.7);
         // if location == 0 strafe left
+        if (location == 0) {
+            // strafe left
+            mecanumStrafeLeftTime(0.5, 500);
+            K = -10;
+        } else if (location == 2) {
+            // strafe right
+            mecanumStrafeRightTime(0.5, 500);
+            K = 10;
+        }
+        driveForwardDistance(maintain, 11, 0.7);
+        driveBackwardDistance(maintain, 11, 0.7);
+
+        double angle = r.getCurrentAngle()+1;
+
+        turnLeftToAngle(angle); //turn to depot
+        sleep(500);
         // if location == 2 strafe right
 
         if (tfod != null) {
             tfod.shutdown();
         }
+
+        maintain = r.getCurrentAngle();
+        driveForwardDistance(maintain, 36, 1);
+        angle = r.getCurrentAngle() + 0.5;
+        turnLeftToAngle(angle);
+        maintain = r.getCurrentAngle();
+        driveForwardDistance(maintain, 30, 0.8);
+        angle = r.getCurrentAngle() + 2;
+        turnRightToAngle(angle);
+        maintain = r.getCurrentAngle();
+        driveForwardDistance(maintain, 75, 1);
+        r.stop();
     }
 
     /**
