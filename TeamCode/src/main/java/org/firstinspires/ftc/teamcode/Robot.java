@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.motors.RevRobotics40HdHexMotor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -29,8 +31,12 @@ public class Robot {
     public DcMotor leftBack;
     public DcMotor rightBack;
     public DcMotor winch;
-    public DcMotor intakeArm;
+    public DcMotor winch2;
     public DcMotor intake;
+    public DcMotor intakeArm;
+
+    public Servo leftArm;
+    public Servo rightArm;
 
     // preset speeds
     public static final double COUNTS_PER_MOTOR_REV = 1120;    // Motor Encoder
@@ -85,8 +91,12 @@ public class Robot {
         rightBack = hardwareMap.get(DcMotor.class, "rb");
 
         winch = hardwareMap.get(DcMotor.class, "wi");
-        intakeArm = hardwareMap.get(DcMotor.class, "ia");
+        winch2 = hardwareMap.get(DcMotor.class, "w2");
         intake = hardwareMap.get(DcMotor.class, "in");
+        intakeArm = hardwareMap.get(DcMotor.class, "ia");
+
+        leftArm = hardwareMap.get(Servo.class, "la");
+        rightArm = hardwareMap.get(Servo.class, "ra");
 
         /* Initialize Telemetry */
 

@@ -93,7 +93,7 @@ public class AutoOpCraterTF extends AutoOpBase {
 
         waitForStart();
 
-        startRobot(); //drop down and strafe out of hook
+        startRobot(); //drop down, sample and strafe out of hook
 
         telemetry.addData("Step 1: ", "Completed");
         telemetry.update();
@@ -107,80 +107,33 @@ public class AutoOpCraterTF extends AutoOpBase {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
 
-        /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start tracking");
-        telemetry.update();
-        int location = -1;
-        waitForStart();
-
-        if (opModeIsActive()) {
-            /** Activate Tensor Flow Object Detection. */
-            if (tfod != null) {
-                tfod.activate();
-            }
-
-            while (opModeIsActive()) {
-                if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                        telemetry.addData("# Object Detected", updatedRecognitions.size());
-                        if (updatedRecognitions.size() == 3) {
-                            int goldMineralX = -1;
-                            int silverMineral1X = -1;
-                            int silverMineral2X = -1;
-                            for (Recognition recognition : updatedRecognitions) {
-                                if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                                    goldMineralX = (int) recognition.getLeft();
-                                } else if (silverMineral1X == -1) {
-                                    silverMineral1X = (int) recognition.getLeft();
-                                } else {
-                                    silverMineral2X = (int) recognition.getLeft();
-                                }
-                            }
-                            if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                                if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                                    telemetry.addData("Gold Mineral Position", "Left");
-                                    location = 0;
-                                    tfod.shutdown();
-                                    break;
-                                } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                                    telemetry.addData("Gold Mineral Position", "Right");
-                                    location = 2;
-                                    tfod.shutdown();
-                                    break;
-                                } else {
-                                    telemetry.addData("Gold Mineral Position", "Center");
-                                    location = 1;
-                                    tfod.shutdown();
-                                    break;
-                                }
-                            }
-                        }
-                        telemetry.update();
-                    }
-
-                }
-            }
-        }
-
         int K = 0;
         maintain = r.getCurrentAngle();
         // drive forward
         driveForwardDistance(maintain, 10, 0.7);
         // if location == 0 strafe left
-        if (location == 0) {
-            // strafe left
-            mecanumStrafeLeftTime(0.5, 500);
-            K = -10;
-        } else if (location == 2) {
-            // strafe right
-            mecanumStrafeRightTime(0.5, 500);
-            K = 10;
+        //SAMPLING CODE
+        if(r.location == 0) { // left from robot's point of view
+            mecanumStrafeLeftTime(0.5, 2000);
+            driveForwardDistance(20, 0.5);
+            driveBackwardDistance(10, 0.5);
+            turnRightToAngle(r.getCurrentAngle() - 90);
+            driveForwardDistance(50, 1);
+        } else if (r.location == 2) { // right from robot's point of view
+            mecanumStrafeLeftTime(0.5, 1000);
+            driveForwardDistance(20, 0.5);
+            sleep(100);
+            driveBackwardDistance(10, 0.5);
+            turnRightToAngle(r.getCurrentAngle() - 90);
+            driveForwardDistance(25, 1);
+        } else { // center from robot's point of view
+            mecanumStrafeRightTime(0.5, 1000);
+            driveForwardDistance(20, 0.5);
+            sleep(100);
+            driveBackwardDistance(10, 0.5);
+            turnRightToAngle(r.getCurrentAngle() - 90);
+            driveForwardDistance(30, 1);
         }
-        driveForwardDistance(maintain, 11, 0.7);
-        driveBackwardDistance(maintain, 11, 0.7);
 
         double angle = r.getCurrentAngle()+1;
 
