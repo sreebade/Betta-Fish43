@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.motors.RevRobotics40HdHexMotor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -11,13 +10,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 /*
@@ -31,12 +30,11 @@ public class Robot {
     public DcMotor leftBack;
     public DcMotor rightBack;
     public DcMotor winch;
-    public DcMotor winch2;
+    public DcMotor rotatingArm;
+    public DcMotor extendingArm;
+    public Servo leftBox;
+    public Servo rightBox;
     public DcMotor intake;
-    public DcMotor intakeArm;
-
-    public Servo leftArm;
-    public Servo rightArm;
 
     // preset speeds
     public static final double COUNTS_PER_MOTOR_REV = 1120;    // Motor Encoder
@@ -90,13 +88,13 @@ public class Robot {
         leftBack = hardwareMap.get(DcMotor.class, "lb");
         rightBack = hardwareMap.get(DcMotor.class, "rb");
 
-        winch = hardwareMap.get(DcMotor.class, "wi");
-        winch2 = hardwareMap.get(DcMotor.class, "w2");
-        intake = hardwareMap.get(DcMotor.class, "in");
-        intakeArm = hardwareMap.get(DcMotor.class, "ia");
+        //winch = hardwareMap.get(DcMotor.class, "wi");
+        //rotatingArm = hardwareMap.get(DcMotor.class, "ra");
+        //extendingArm = hardwareMap.get(DcMotor.class, "ea");
+        //intake = hardwareMap.get(DcMotor.class, "in");
 
-        leftArm = hardwareMap.get(Servo.class, "la");
-        rightArm = hardwareMap.get(Servo.class, "ra");
+        leftBox = hardwareMap.get(Servo.class, "lbox");
+        rightBox = hardwareMap.get(Servo.class, "rbox");
 
         /* Initialize Telemetry */
 
@@ -251,7 +249,8 @@ public class Robot {
         leftBack.setPower(0);
         leftFront.setPower(0);
         winch.setPower(0);
-        intakeArm.setPower(0);
+        rotatingArm.setPower(0);
+        extendingArm.setPower(0);
         intake.setPower(0);
     }
 
@@ -303,7 +302,7 @@ public class Robot {
      */
     public void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "scrim", "id", hardwareMap.appContext.getPackageName());
+                "final", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         // set the minimumConfidence to a higher percentage to be more selective when identifying objects.
         tfodParameters.minimumConfidence = 0.6;
