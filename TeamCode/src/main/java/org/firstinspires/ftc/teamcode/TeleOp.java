@@ -52,7 +52,6 @@ public class TeleOp extends LinearOpMode {
             }
 
             //Gamepad 2
-/*
             if (gamepad2.y) { //slide up
                 r.extendingArm.setPower(1);
             } else if (gamepad2.a) { //slide down
@@ -69,12 +68,20 @@ public class TeleOp extends LinearOpMode {
                 r.extendingArm.setPower(0);
             }
 
-            if (gamepad2.left_bumper) {
+            if (gamepad2.right_bumper) {
                 r.intake.setPower(-1);
-            } else if (gamepad2.right_bumper) {
-                r.intake.setPower(1);
             }
-*/
+            if(gamepad2.x)
+            {
+                // dump minerals, rotating arm up. reverse is up
+                r.rotatingArm.setPower(-0.8);
+            } else if(gamepad2.b)
+            {
+                // go down (to retrieve minerals). forward is down
+                r.rotatingArm.setPower(0.6);
+            } else
+                r.rotatingArm.setPower(0);
+
             if (gamepad2.dpad_up)
                 r.winch.setPower(-1);
             else if (gamepad2.dpad_down)
