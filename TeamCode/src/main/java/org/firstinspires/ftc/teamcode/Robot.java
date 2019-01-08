@@ -31,9 +31,9 @@ public class Robot {
     public DcMotor leftBack;
     public DcMotor rightBack;
     public DcMotor winch;
-    //public DcMotor rotatingArm;
-    //public DcMotor extendingArm;
-    //public DcMotor intake;
+    public DcMotor rotatingArm;
+    public DcMotor extendingArm;
+    public DcMotor intake;
 
     // preset speeds
     public static final double COUNTS_PER_MOTOR_REV = 1120;    // Motor Encoder
@@ -88,9 +88,9 @@ public class Robot {
         rightBack = hardwareMap.get(DcMotor.class, "rb");
 
         winch = hardwareMap.get(DcMotor.class, "wi");
-        //rotatingArm = hardwareMap.get(DcMotor.class, "ra");
-        //extendingArm = hardwareMap.get(DcMotor.class, "ea");
-        //intake = hardwareMap.get(DcMotor.class, "in");
+        rotatingArm = hardwareMap.get(DcMotor.class, "ra");
+        extendingArm = hardwareMap.get(DcMotor.class, "ea");
+        intake = hardwareMap.get(DcMotor.class, "in");
 
         stopDriving();
 
