@@ -23,10 +23,10 @@ public abstract class AutoOpBase extends LinearOpMode {
     }
 
     public void startRobot() throws InterruptedException {
+        sampling();
         //r.winch.setPower(1);
         //sleep(10000);
         //r.winch.setPower(0);
-        sampling();
         driveForwardDistance(r.getCurrentAngle(),4, 0.2);
         //r.winch.setPower(-1);
         //sleep(4200);
