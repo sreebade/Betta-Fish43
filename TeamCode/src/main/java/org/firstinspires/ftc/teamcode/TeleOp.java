@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class TeleOp extends LinearOpMode {
     Robot r = new Robot();
     int direction = 1;
-    int rotStop = 1;
     double speed = 1;
 
     public void runOpMode() throws InterruptedException {
@@ -83,13 +82,13 @@ public class TeleOp extends LinearOpMode {
 
             if (gamepad2.y) //Rotation
                 r.rotatingArm.setPower(1);
-            else if (gamepad2.left_stick_button) {
-                if (r.rotatingArm.getCurrentPosition() < 2100)
-                    r.rotatingArm.setPower(1);
+            else if (gamepad2.dpad_right) {
+                if (r.rotatingArm.getCurrentPosition() < 3600)
+                    r.rotatingArm.setPower(0.5);
                 else
                     r.rotatingArm.setPower(0);
-            } else if (gamepad2.right_stick_button) {
-                if (r.rotatingArm.getCurrentPosition() < 3600)
+            } else if (gamepad2.left_stick_button) {
+                if (r.rotatingArm.getCurrentPosition() < 2100)
                     r.rotatingArm.setPower(1);
                 else
                     r.rotatingArm.setPower(0);
@@ -99,29 +98,29 @@ public class TeleOp extends LinearOpMode {
                 r.rotatingArm.setPower(0);
 
             if (gamepad2.b) //Extension
-                r.extendingArm.setPower(0.7);
-            else if (gamepad2.dpad_right) {
-                if (r.extendingArm.getCurrentPosition() < 2000)
-                    r.extendingArm.setPower(0.7);
+                r.extendingArm.setPower(-0.7);
+            else if (gamepad2.right_stick_button) {
+                if (-r.extendingArm.getCurrentPosition() > 0)
+                    r.extendingArm.setPower(-0.7);
                 else
                     r.extendingArm.setPower(0);
-            } else if (gamepad2.x)
-                r.extendingArm.setPower(-0.7);
+            } else if (gamepad2.x && -r.extendingArm.getCurrentPosition() < 2300)
+                r.extendingArm.setPower(0.7);
             else
                 r.extendingArm.setPower(0);
 
             if (gamepad2.left_bumper)
-                r.intake.setPower(-1); //outtake
-            else if (gamepad2.right_bumper)
                 r.intake.setPower(1); //intake
+            else if (gamepad2.right_bumper)
+                r.intake.setPower(-1); //outtake
             else
                 r.intake.setPower(0);
 
 
             if (gamepad2.dpad_up)
-                r.winch.setPower(-1);
-            else if (gamepad2.dpad_down)
                 r.winch.setPower(1);
+            else if (gamepad2.dpad_down)
+                r.winch.setPower(-1);
             else
                 r.winch.setPower(0);
 

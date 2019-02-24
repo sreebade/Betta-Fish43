@@ -17,25 +17,30 @@ public class AutoOpCrater extends AutoOpBase {
         startRobot(); //drop down, sample and strafe out of hook
 
         //SAMPLING CODE
-        switch (r.sampling) {
-            case 2: //gold mineral is left from robot's point of view
-                mecanumStrafeLeftTime(0.3, 1500);
-                driveForwardDistance(r.getCurrentAngle(), 5, 0.3);
-                driveBackwardDistance(r.getCurrentAngle(), 5, 0.3);
-                turnLeftToAngle(90);
-                driveForwardDistance(r.getCurrentAngle(), 10, 0.3);
+        switch (sampling) {
+            case 0: //gold mineral is left from robot's point of view
+                turnLeftTime(0.8, 250);
+                driveForwardDistance(r.getCurrentAngle(), 15, 0.3);
+                turnLeftTime(0.8, 250);
+                mecanumStrafeRightTime(1,1000);
+                mecanumStrafeLeftTime(0.3,500);
+                driveForwardDistance(r.getCurrentAngle(), 55, 1);
+                dropMarker();
+                driveBackwardDistance(r.getCurrentAngle(), 60, 1);
                 break;
             case 1: //gold mineral is center from robot's point of view
-                driveForwardDistance(10, 0.3);
-                driveBackwardDistance(5, 0.3);
-                turnLeftTime(0.3, 950);
+                driveForwardDistance(r.getCurrentAngle(),25, 0.7);
+                driveBackwardDistance(10, 0.3);
+                turnLeftTime(0.8, 750);
                 driveForwardDistance(20, 0.7);
-                turnLeftTime(0.3, 100);
-                driveForwardDistance(r.getCurrentAngle(),15, 0.3);
+                turnLeftTime(0.8, 750);
+                mecanumStrafeRightTime(1,1000);
+                mecanumStrafeLeftTime(0.3,500);
+                driveForwardDistance(r.getCurrentAngle(),55, 1);
                 dropMarker();
-                driveBackwardDistance(r.getCurrentAngle(),65, 1);
+                driveBackwardDistance(r.getCurrentAngle(),60, 1);
                 break;
-            case 0: //gold mineral is right from robot's point of view
+            case 2: //gold mineral is right from robot's point of view
                 mecanumStrafeRightTime(0.3, 1500);
                 driveForwardDistance(r.getCurrentAngle(),5, 0.3);
                 driveBackwardDistance(r.getCurrentAngle(),5, 0.3);

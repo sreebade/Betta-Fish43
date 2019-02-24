@@ -6,15 +6,15 @@ import com.qualcomm.robotcore.eventloop.opmode.*;
  * Created by Tej Bade on 10/6/18.
  */
 
-@Autonomous(name="Down Winch")
-public class DownWinch extends AutoOpBase {
+@Autonomous(name="TFOD")
+public class TFOD extends AutoOpBase {
 
     public void runOpMode() throws InterruptedException {
         initRobot();
 
         waitForStart();
 
-        r.winch.setPower(-1);
+        sampling2(this);
 
         while (opModeIsActive()) {
             idle();

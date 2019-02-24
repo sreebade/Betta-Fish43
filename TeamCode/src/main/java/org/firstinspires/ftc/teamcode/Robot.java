@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -15,10 +12,6 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-
-
 
 
 /*
@@ -41,7 +34,6 @@ public class Robot {
     public static final double DRIVE_GEAR_REDUCTION = 1.0;     // This is < 1.0 if geared UP
     public static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     public static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
-    public static final int ARM_ROTATION = 2800;
 
     public static final double DRIVE_SPEED_SLOW = 0.25;
     public static final double DRIVE_SPEED_NORMAL = 0.5;
@@ -63,16 +55,6 @@ public class Robot {
     //BNO055IMU imu;
 
     BNO055IMU imu;
-
-    public final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
-    public final String LABEL_GOLD_MINERAL = "Gold Mineral";
-    public final String LABEL_SILVER_MINERAL = "Silver Mineral";
-    public int sampling = -1;
-
-    public final String VUFORIA_KEY = "AfxXQqT/////AAABmeV5q1PmwEdgj5TLHPs/fLpiSGjLwPtQfI0I2e7Trulm22828KlsKt1Yd8h7HyvouNBn+ATRb8cYn84cJZZEkO8fOMNNP3fpxrM24Mws75J37WlwNYI4jPWLwGYl8R1URCO03RWUfI5DU+/RwL916RQGJZn+W6zjjzEAepEeMkTxXlxef3iaufyDtHzXalQMWkTURL8L+glxH0fzupa03nHyyZZYkz1ByycMR6dBnMo/VQOljRbdf+cU0NWnxUiR5L7Afnxrb3E+rcAgA7dy2WQA98Hx/0GGXeYQoF9Xtnve6CiqEoTpcxNs2HNvwpC658wd6p11yxYPZKj/tHLlIyQq6gYPA/1A1o1shPFQKt+e";
-
-    VuforiaLocalizer vuforia;
-    TFObjectDetector tfod;
 
     // State used for updating telemetry
     public Orientation angles;
@@ -216,6 +198,7 @@ public class Robot {
         return rightBack.isBusy() && rightFront.isBusy() && leftBack.isBusy() && leftFront.isBusy();
     }
 
+
     public float getCurrentAngle() {
         return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
@@ -244,32 +227,5 @@ public class Robot {
 
     }
 
-    public void initVuforia() {
-        /*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-
-        //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
-    }
-
-    /**
-     * Initialize the Tensor Flow Object Detection engine.
-     */
-    public void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "final", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        // set the minimumConfidence to a higher percentage to be more selective when identifying objects.
-        tfodParameters.minimumConfidence = 0.7;
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
-    }
 
 }
