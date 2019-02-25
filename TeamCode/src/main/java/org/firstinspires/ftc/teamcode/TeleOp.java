@@ -34,7 +34,7 @@ public class TeleOp extends LinearOpMode {
             telemetry.addData("Speed", speed);
 
             telemetry.addData("Rotation", r.rotatingArm.getCurrentPosition());
-            telemetry.addData("Extension", r.extendingArm.getCurrentPosition());
+            telemetry.addData("Extension", -r.extendingArm.getCurrentPosition());
             telemetry.update();
 
             //Gamepad 1

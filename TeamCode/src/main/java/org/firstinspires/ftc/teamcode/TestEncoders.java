@@ -6,15 +6,15 @@ import com.qualcomm.robotcore.eventloop.opmode.*;
  * Created by Tej Bade on 10/6/18.
  */
 
-@Autonomous(name="TFOD")
-public class TFOD extends AutoOpBase {
+@Autonomous(name="Test Encoders")
+public class TestEncoders extends AutoOpBase {
 
     public void runOpMode() throws InterruptedException {
         initRobot();
 
         waitForStart();
 
-        sampling(this);
+        driveForwardDistance(20, 1);
 
         while (opModeIsActive()) {
             idle();
