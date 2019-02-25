@@ -14,8 +14,6 @@ public class TestEncoders extends AutoOpBase {
 
         waitForStart();
 
-        driveForwardDistance(20, 1);
-
         while (opModeIsActive()) {
             idle();
         }

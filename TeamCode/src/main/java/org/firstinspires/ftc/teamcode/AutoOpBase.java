@@ -11,7 +11,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-
 import java.util.List;
 
 public abstract class AutoOpBase extends LinearOpMode {
@@ -291,15 +290,6 @@ public abstract class AutoOpBase extends LinearOpMode {
             sleep(time);
             r.stopDriving();
         }
-    }
-
-    public void dropMarker() {
-        r.rotatingArm.setPower(-1);
-        sleep(1000);
-        r.rotatingArm.setPower(0);
-        r.intake.setPower(-0.4);
-        sleep(900);
-        r.intake.setPower(0);
     }
 
     public void initSampling() {
