@@ -25,7 +25,9 @@ public class AutoOpCrater extends AutoOpBase {
                 mecanumStrafeRightTime(1,1000);
                 mecanumStrafeLeftTime(0.3,500);
                 driveForwardDistance(r.getCurrentAngle(), 55, 1);
-                dropMarker();
+                r.intake.setPower(-0.4);
+                sleep(900);
+                r.intake.setPower(0);
                 driveBackwardDistance(r.getCurrentAngle(), 60, 1);
                 break;
             case "Center": //gold mineral is center from robot's point of view
@@ -37,7 +39,9 @@ public class AutoOpCrater extends AutoOpBase {
                 mecanumStrafeRightTime(1,1000);
                 mecanumStrafeLeftTime(0.3,500);
                 driveForwardDistance(55, 1);
-                dropMarker();
+                r.intake.setPower(-0.4);
+                sleep(900);
+                r.intake.setPower(0);
                 driveBackwardDistance(60, 1);
                 break;
             case "Right": //gold mineral is right from robot's point of view
@@ -54,7 +58,9 @@ public class AutoOpCrater extends AutoOpBase {
                 driveForwardDistance(20, 0.7);
                 turnLeftTime(0.3, 100);
                 driveForwardDistance(r.getCurrentAngle(),15, 0.3);
-                dropMarker();
+                r.intake.setPower(-0.4);
+                sleep(900);
+                r.intake.setPower(0);
                 driveBackwardDistance(r.getCurrentAngle(),65, 1);
         }
 

@@ -38,7 +38,7 @@ public abstract class AutoOpBase extends LinearOpMode {
     public void startRobot() {
         sampling(this);
         r.winch.setPower(1);
-        sleep(12000);
+        sleep(10500);
         r.winch.setPower(0);
         driveForwardDistance(5, 0.5);
     }
