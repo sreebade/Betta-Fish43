@@ -45,18 +45,19 @@ public class AutoOpDepot extends AutoOpBase {
                 break;
             case "Right": //gold mineral is right from robot's point of view
                 turnRightTime(0.7, 200);
-                driveForwardDistance(28, 0.7);
-                driveBackwardDistance(24, 0.7);
-                turnLeftTime(0.7, 625);
+                driveForwardDistance(26, 0.7);
+                driveBackwardDistance(23, 0.7);
+                turnLeftTime(0.7, 500);
                 driveForwardDistance(47, 0.7);
                 turnRightTime(0.7, 700);
-                mecanumStrafeLeftTime(0.3, 600);
-                mecanumStrafeRightTime(0.3, 300);
+                mecanumStrafeLeftTime(0.4, 600);
+                mecanumStrafeRightTime(0.3, 450);
                 driveForwardDistance(25, 0.7);
+                turnRightTime(0.2, 250);
                 r.intake.setPower(-0.4);
                 sleep(900);
                 r.intake.setPower(0);
-                driveBackwardDistance(70, 1);
+                driveBackwardDistance(65, 1);
                 break;
             default:
                 driveForwardDistance(37, 0.7);
