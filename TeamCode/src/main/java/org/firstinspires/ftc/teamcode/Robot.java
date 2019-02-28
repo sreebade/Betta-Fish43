@@ -114,7 +114,7 @@ public class Robot {
     }
 
     public void driveForward(double leftPower, double rightPower) {
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
@@ -153,7 +153,7 @@ public class Robot {
     }
 
     public void turnLeft(double power) {
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setDirection(DcMotor.Direction.REVERSE);
@@ -168,13 +168,13 @@ public class Robot {
     }
 
     public void mecanumStrafeLeft(double power) {
-        rightBack.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.REVERSE);
-        rightBack.setPower(0.8*power);
+        rightBack.setPower(power);
         rightFront.setPower(power);
-        leftBack.setPower(0.6*power);
+        leftBack.setPower(0.8*power);
         leftFront.setPower(power);
     }
 

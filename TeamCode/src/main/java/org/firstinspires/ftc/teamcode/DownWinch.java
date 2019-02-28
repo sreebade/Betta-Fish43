@@ -14,7 +14,7 @@ public class DownWinch extends AutoOpBase {
 
         waitForStart();
 
-        r.winch.setPower(-1);
+        r.winch.setPower(1);
 
         while (opModeIsActive()) {
             idle();

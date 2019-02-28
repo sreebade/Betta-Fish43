@@ -37,8 +37,8 @@ public abstract class AutoOpBase extends LinearOpMode {
 
     public void startRobot() {
         sampling(this);
-        r.winch.setPower(1);
-        sleep(10500);
+        r.winch.setPower(-1);
+        sleep(11000);
         r.winch.setPower(0);
         driveForwardDistance(5, 0.5);
     }
@@ -320,7 +320,7 @@ public abstract class AutoOpBase extends LinearOpMode {
                     telemetry.addData("# Objects Detected", updatedRecognitions.size());
                     if (updatedRecognitions.size() >= 1) {
                         for (Recognition recognition : updatedRecognitions) {
-                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL) && recognition.getLeft() < 270) {
+                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL) && recognition.getLeft() < 280) {
                                 float goldMineralX = recognition.getTop();
                                 float goldMineralY = recognition.getLeft();
                                 telemetry.addData("Gold Mineral X", goldMineralX);

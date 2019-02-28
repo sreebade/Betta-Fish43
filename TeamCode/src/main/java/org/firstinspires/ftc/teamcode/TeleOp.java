@@ -118,9 +118,9 @@ public class TeleOp extends LinearOpMode {
 
 
             if (gamepad2.dpad_up)
-                r.winch.setPower(1);
-            else if (gamepad2.dpad_down)
                 r.winch.setPower(-1);
+            else if (gamepad2.dpad_down)
+                r.winch.setPower(1);
             else
                 r.winch.setPower(0);
 

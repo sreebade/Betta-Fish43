@@ -26,34 +26,33 @@ public class AutoOpDepot extends AutoOpBase {
                 turnRightTime(0.3, 950);
                 mecanumStrafeLeftTime(0.3, 1200);
                 mecanumStrafeRightTime(0.3, 400);
-                driveForwardDistance(20, 0.3);
+                driveForwardDistance(20, 0.7);
                 r.intake.setPower(-0.4);
                 sleep(900);
                 r.intake.setPower(0);
                 driveBackwardDistance(70, 0.7); //drive to crater
                 break;
             case "Center": //gold mineral is center from robot's point of view
-                driveForwardDistance(37, 0.7);
+                driveForwardDistance(39, 0.7);
                 r.intake.setPower(-0.4);
                 sleep(900);
                 r.intake.setPower(0);
                 driveBackwardDistance(24, 0.7);
                 turnLeftTime(0.3, 1300);
-                driveForwardDistance(40, 0.7);
-                turnLeftTime(0.3, 400);
-                driveForwardDistance(10, 1);
+                driveForwardDistance(50, 1);
+                turnLeftTime(0.3, 200);
+                driveForwardDistance(8, 0.5);
                 break;
             case "Right": //gold mineral is right from robot's point of view
                 turnRightTime(0.7, 200);
                 driveForwardDistance(26, 0.7);
-                driveBackwardDistance(23, 0.7);
+                driveBackwardDistance(26, 0.7);
                 turnLeftTime(0.7, 500);
                 driveForwardDistance(47, 0.7);
-                turnRightTime(0.7, 700);
-                mecanumStrafeLeftTime(0.4, 600);
+                turnRightTime(0.7, 600);
+                mecanumStrafeLeftTime(0.45, 1200);
                 mecanumStrafeRightTime(0.3, 450);
                 driveForwardDistance(25, 0.7);
-                turnRightTime(0.2, 250);
                 r.intake.setPower(-0.4);
                 sleep(900);
                 r.intake.setPower(0);

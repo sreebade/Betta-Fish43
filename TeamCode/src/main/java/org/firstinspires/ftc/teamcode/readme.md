@@ -3,7 +3,7 @@
 # Hardware Map
 exphub1
 
-wi=0, ea=1, ra=2, in=3
+wi=0, ra=1, ea=2, in=3
 
 exphub2
 
