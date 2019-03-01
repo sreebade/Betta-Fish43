@@ -14,7 +14,7 @@ public class TestEncoders extends AutoOpBase {
 
         waitForStart();
 
-        driveForwardDistance(r.getCurrentAngle(), 30, 1);
+        turnRightToAngle(30);
 
         while (opModeIsActive()) {
             idle();

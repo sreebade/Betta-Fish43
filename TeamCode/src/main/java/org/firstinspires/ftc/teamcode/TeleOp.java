@@ -26,6 +26,7 @@ public class TeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
             // Display Modes
+            telemetry.addData("Angle", r.getCurrentAngle());
             if (direction == 1)
                 telemetry.addData("Direction", "Forward");
             else if (direction == -1)

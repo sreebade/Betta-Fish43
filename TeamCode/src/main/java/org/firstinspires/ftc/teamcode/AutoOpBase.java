@@ -182,13 +182,15 @@ public abstract class AutoOpBase extends LinearOpMode {
 
     public void turnLeftToAngle(double targetAngle) {
         float currentAngle = r.getCurrentAngle();
+        telemetry.addData("Angle", r.getCurrentAngle());
+        telemetry.update();
         if (targetAngle == currentAngle) {
             // Nothing to do.
             return;
         }
 
         // Check if the target angle is to the left of current angle
-        if (targetAngle < currentAngle) {
+        if (targetAngle > currentAngle) {
             turnLeftToAngleLocal(targetAngle);
         } else {
             // We will be crossing over the 180 mark.
@@ -210,7 +212,7 @@ public abstract class AutoOpBase extends LinearOpMode {
 
         r.turnLeft(r.TURN_SPEED_NORMAL);
 
-        while (opModeIsActive() && targetAngle < currentAngle) {
+        while (opModeIsActive() && targetAngle > currentAngle) {
             // Keep turning.
             currentAngle = r.getCurrentAngle();
             telemetry.addData("Target Angle", targetAngle);
@@ -235,7 +237,7 @@ public abstract class AutoOpBase extends LinearOpMode {
             return;
         }
 
-        // Check if the target angle is to the left of current angle
+        // Check if the target angle is to the right of current angle
         if (targetAngle < currentAngle) {
             turnRightToAngleLocal(targetAngle);
         } else {
